@@ -4,28 +4,63 @@
 <meta charset="UTF-8">
 <title>Para Nicolle 💘</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 body {
-    background: linear-gradient(135deg, #ff9eb5, #ffc3d1);
+    background: linear-gradient(135deg, #ffb3c6, #ffc8dd);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: 'Poppins', sans-serif;
     margin: 0;
+    font-family: 'Poppins', sans-serif;
     overflow: hidden;
 }
 
+/* CARTA */
+.envelope {
+    width: 280px;
+    height: 180px;
+    background: #ff8fab;
+    position: relative;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.envelope:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 90px solid #ff4d6d;
+}
+
+.envelope-text {
+    position: relative;
+    color: white;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* CARTA ABIERTA */
 .card {
+    display: none;
     background: white;
-    width: 340px;
+    width: 320px;
     padding: 25px;
     border-radius: 25px;
     text-align: center;
     box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     position: relative;
+    overflow: hidden;
 }
 
 .card img {
@@ -33,32 +68,37 @@ body {
     border-radius: 20px;
 }
 
+.top-message {
+    font-size: 14px;
+    color: #d90429;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
 h2 {
     font-family: 'Pacifico', cursive;
-    color: #ff4d6d;
-    font-size: 24px;
-    margin-top: 15px;
-    transition: 0.3s;
+    color: #e63946;
 }
 
 p {
-    font-size: 14px;
-    color: #555;
+    color: #111;
+    font-weight: 600;
 }
 
 .buttons {
     margin-top: 15px;
+    position: relative;
+    height: 70px;
 }
 
 button {
-    padding: 12px 25px;
-    border-radius: 25px;
+    padding: 8px 18px;
+    border-radius: 20px;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
-    margin: 5px;
-    transition: 0.3s;
     font-weight: bold;
+    transition: 0.3s;
 }
 
 #yes {
@@ -67,23 +107,28 @@ button {
 }
 
 #no {
-    background: #9ca3af;
+    background: #ff8fab;
     color: white;
-    position: relative;
-}
-
-@keyframes floatUp {
-    to {
-        transform: translateY(-110vh);
-        opacity: 0;
-    }
+    position: absolute;
+    right: 10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<!-- CARTA CERRADA -->
+<div class="envelope" id="envelope">
+    <div class="envelope-text">Tócame 💌</div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="card" id="card">
+
+    <div class="top-message">
+        No soy programador… pero por ti aprendí a hacer esto 💻❤️
+    </div>
+
     <img src="https://media.tenor.com/gD1awOKldpcAAAAM/nanobombs-cat.gif">
 
     <h2 id="question">¿Quieres ser mi San Valentín Nicolle? 🥺👉👈</h2>
@@ -93,119 +138,77 @@ button {
         <button id="yes">Sí 🥰</button>
         <button id="no">No 😢</button>
     </div>
+
 </div>
 
 <script>
+let envelope = document.getElementById("envelope");
+let card = document.getElementById("card");
 let yes = document.getElementById("yes");
 let no = document.getElementById("no");
 let question = document.getElementById("question");
 
-let yesSize = 16;
-let noSize = 16;
+let yesSize = 14;
 let clickCount = 0;
 
 let messages = [
 "¿Segura Nicolle? 🥺",
-"¿Segurísima segurísima? 😳",
-"¿100% confirmada esa decisión? 🤨",
-"No seas así conmigo 😭",
-"Ándaleee, mira el gatito 🐱🌹",
-"Te prometo que soy buena inversión 😌",
-"Última oportunidad… o no tanto 😅",
-"Imagínate diciéndole a tus amigas que me rechazaste 😔",
-"Respira… analiza… y presiona 'Sí' 😌",
-"El destino claramente quiere que digas que sí ✨"
+"¿Segurísima? 😳",
+"No seas así 😭",
+"Ándaleee 🐱",
+"Presiona 'Sí' mejor 😌"
 ];
 
-function moveNoButton() {
+/* ABRIR CARTA */
+envelope.addEventListener("click", function(){
+    envelope.style.display = "none";
+    card.style.display = "block";
+});
 
-    if (navigator.vibrate) {
-        navigator.vibrate(200);
-    }
+/* BOTÓN NO */
+function moveNoButton() {
 
     question.innerText = messages[clickCount % messages.length];
     clickCount++;
 
-    noSize -= 1;
-    if (noSize < 8) noSize = 8;
-    no.style.fontSize = noSize + "px";
-
-    yesSize += 2;
+    yesSize += 6;
     yes.style.fontSize = yesSize + "px";
-    yes.style.padding = "15px 35px";
+    yes.style.padding = "12px 25px";
 
-    no.style.position = "absolute";
-    no.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    no.style.top = Math.random() * (window.innerHeight - 50) + "px";
+    let maxX = card.clientWidth - no.offsetWidth - 20;
+    let maxY = card.clientHeight - no.offsetHeight - 20;
+
+    no.style.left = Math.random() * maxX + "px";
+    no.style.top = Math.random() * maxY + "px";
 }
 
 no.addEventListener("mouseover", moveNoButton);
-no.addEventListener("touchstart", function(e) {
+no.addEventListener("touchstart", function(e){
     e.preventDefault();
     moveNoButton();
 });
 
-function createHeart() {
-    let heart = document.createElement("div");
-    heart.innerText = "💗";
-    heart.style.position = "fixed";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.top = "100vh";
-    heart.style.fontSize = Math.random() * 20 + 15 + "px";
-    heart.style.animation = "floatUp 4s linear forwards";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 4000);
-}
-
-setInterval(createHeart, 500);
-
-yes.addEventListener("click", function() {
-
+/* CUANDO DICE SÍ */
+yes.addEventListener("click", function(){
     document.body.innerHTML = `
-    <div style="text-align:center; color:white; padding:40px; font-family:'Poppins',sans-serif;">
-        <h1 style="font-family:'Pacifico',cursive; font-size:55px;">YAAAAYYY 💘👑</h1>
-
-        <h1 style="font-size:50px;">Nicolle ahora ahora eres </h1>
-
-        <h1 style="font-size:70px; text-shadow: 0 0 15px white;">
-        MI PRINCESA PIOJOSA 💖✨👑
+    <div style="text-align:center; color:white; padding:40px;">
+        <h1 style="font-family:'Pacifico',cursive; font-size:55px;">
+        YAAAAYYY 💘👑
         </h1>
 
-        <p style="font-size:22px; margin-top:20px;">
-        Prometo hacerte la princesa más feliz del mundo 👑💞<br><br>
-        Prometo cuidarte, protegerte y estar contigo siempre 🥺❤️<br><br>
-        Prometo abrazarte fuerte cuando lo necesites 🤗💓<br><br>
-        Prometo hacerte reír hasta que te duela la panza 😂💕<br><br>
-        Prometo quererte hoy, mañana y todos los días de mi vida 🫶✨<br><br>
-        Porque tú, Nicolle, eres lo más hermoso que me ha pasado 🌸💘<br><br>
-        <strong>MI PRINCESA PIOJOSA 💖✨</strong>
-        </p>
+        <h1 style="font-size:50px;">
+        Nicolle ahora es oficialmente
+        </h1>
+
+        <h1 style="font-size:65px; text-shadow:0 0 15px white;">
+        MI PRINCESA PIOJOSA 💖✨👑
+        </h1>
     </div>
     `;
 
-    document.body.style.backgroundImage = "url('https://png.pngtree.com/background/20250111/original/pngtree-valentines-day-background-with-red-hearts-picture-image_15307810.jpg')";
+    document.body.style.backgroundImage =
+    "url('https://png.pngtree.com/background/20250111/original/pngtree-valentines-day-background-with-red-hearts-picture-image_15307810.jpg')";
     document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-
-    function megaHearts() {
-        let heart = document.createElement("div");
-        heart.innerText = "💖";
-        heart.style.position = "fixed";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.top = "100vh";
-        heart.style.fontSize = Math.random() * 35 + 20 + "px";
-        heart.style.animation = "floatUp 3s linear forwards";
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 3000);
-    }
-
-    setInterval(megaHearts, 150);
 });
 </script>
 
