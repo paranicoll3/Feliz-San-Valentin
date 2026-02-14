@@ -15,7 +15,6 @@ body {
     height: 100vh;
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
 }
 
 /* CARTA */
@@ -36,8 +35,6 @@ body {
     content: "";
     position: absolute;
     top: 0;
-    width: 0;
-    height: 0;
     border-left: 140px solid transparent;
     border-right: 140px solid transparent;
     border-top: 90px solid #ff4d6d;
@@ -47,10 +44,9 @@ body {
     position: relative;
     color: white;
     font-weight: bold;
-    z-index: 2;
 }
 
-/* CARTA ABIERTA */
+/* CARD */
 .card {
     display: none;
     background: white;
@@ -59,8 +55,6 @@ body {
     border-radius: 25px;
     text-align: center;
     box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    position: relative;
-    overflow: hidden;
 }
 
 .card img {
@@ -85,10 +79,12 @@ p {
     font-weight: 600;
 }
 
+/* BOTONES */
 .buttons {
-    margin-top: 15px;
+    margin-top: 20px;
     position: relative;
-    height: 70px;
+    width: 100%;
+    height: 80px; /* LIMITAMOS EL AREA */
 }
 
 button {
@@ -99,30 +95,29 @@ button {
     cursor: pointer;
     font-weight: bold;
     transition: 0.3s;
+    position: absolute;
 }
 
 #yes {
     background: #ff4d6d;
     color: white;
+    left: 40px;
 }
 
 #no {
     background: #ff8fab;
     color: white;
-    position: absolute;
-    right: 10px;
+    right: 40px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- CARTA CERRADA -->
 <div class="envelope" id="envelope">
     <div class="envelope-text">Tócame 💌</div>
 </div>
 
-<!-- CONTENIDO -->
 <div class="card" id="card">
 
     <div class="top-message">
@@ -134,7 +129,7 @@ button {
     <h2 id="question">¿Quieres ser mi San Valentín Nicolle? 🥺👉👈</h2>
     <p>Prometo hacerte muy muy feliz y cuidar de tus piojos ❤️</p>
 
-    <div class="buttons">
+    <div class="buttons" id="buttons">
         <button id="yes">Sí 🥰</button>
         <button id="no">No 😢</button>
     </div>
@@ -146,6 +141,7 @@ let envelope = document.getElementById("envelope");
 let card = document.getElementById("card");
 let yes = document.getElementById("yes");
 let no = document.getElementById("no");
+let buttons = document.getElementById("buttons");
 let question = document.getElementById("question");
 
 let yesSize = 14;
@@ -159,24 +155,24 @@ let messages = [
 "Presiona 'Sí' mejor 😌"
 ];
 
-/* ABRIR CARTA */
 envelope.addEventListener("click", function(){
     envelope.style.display = "none";
     card.style.display = "block";
 });
 
-/* BOTÓN NO */
+/* MOVER NO SOLO DENTRO DEL CONTENEDOR */
 function moveNoButton() {
 
     question.innerText = messages[clickCount % messages.length];
     clickCount++;
 
+    /* AGRANDAR EL SÍ */
     yesSize += 6;
     yes.style.fontSize = yesSize + "px";
-    yes.style.padding = "12px 25px";
+    yes.style.padding = "12px 28px";
 
-    let maxX = card.clientWidth - no.offsetWidth - 20;
-    let maxY = card.clientHeight - no.offsetHeight - 20;
+    let maxX = buttons.clientWidth - no.offsetWidth;
+    let maxY = buttons.clientHeight - no.offsetHeight;
 
     no.style.left = Math.random() * maxX + "px";
     no.style.top = Math.random() * maxY + "px";
@@ -188,7 +184,6 @@ no.addEventListener("touchstart", function(e){
     moveNoButton();
 });
 
-/* CUANDO DICE SÍ */
 yes.addEventListener("click", function(){
     document.body.innerHTML = `
     <div style="text-align:center; color:white; padding:40px;">
@@ -206,9 +201,8 @@ yes.addEventListener("click", function(){
     </div>
     `;
 
-    document.body.style.backgroundImage =
-    "url('https://png.pngtree.com/background/20250111/original/pngtree-valentines-day-background-with-red-hearts-picture-image_15307810.jpg')";
-    document.body.style.backgroundSize = "cover";
+    document.body.style.background =
+    "linear-gradient(135deg, #ff4d6d, #ff8fab)";
 });
 </script>
 
