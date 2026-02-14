@@ -15,6 +15,7 @@ body {
     height: 100vh;
     margin: 0;
     font-family: 'Poppins', sans-serif;
+    overflow: hidden;
 }
 
 /* CARTA */
@@ -22,13 +23,13 @@ body {
     width: 280px;
     height: 180px;
     background: #ff8fab;
-    position: relative;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .envelope:before {
@@ -41,16 +42,16 @@ body {
 }
 
 .envelope-text {
-    position: relative;
     color: white;
     font-weight: bold;
+    position: relative;
 }
 
 /* CARD */
 .card {
     display: none;
     background: white;
-    width: 320px;
+    width: 330px;
     padding: 25px;
     border-radius: 25px;
     text-align: center;
@@ -79,12 +80,11 @@ p {
     font-weight: 600;
 }
 
-/* BOTONES */
 .buttons {
     margin-top: 20px;
     position: relative;
     width: 100%;
-    height: 80px; /* LIMITAMOS EL AREA */
+    height: 90px;
 }
 
 button {
@@ -108,6 +108,20 @@ button {
     background: #ff8fab;
     color: white;
     right: 40px;
+}
+
+/* CORAZONES */
+.heart {
+    position: fixed;
+    font-size: 24px;
+    animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
 }
 </style>
 </head>
@@ -160,13 +174,12 @@ envelope.addEventListener("click", function(){
     card.style.display = "block";
 });
 
-/* MOVER NO SOLO DENTRO DEL CONTENEDOR */
+/* MOVER NO */
 function moveNoButton() {
 
     question.innerText = messages[clickCount % messages.length];
     clickCount++;
 
-    /* AGRANDAR EL SÍ */
     yesSize += 6;
     yes.style.fontSize = yesSize + "px";
     yes.style.padding = "12px 28px";
@@ -184,25 +197,65 @@ no.addEventListener("touchstart", function(e){
     moveNoButton();
 });
 
+/* EXPLOSIÓN */
+function explodeHearts() {
+    for (let i = 0; i < 150; i++) {
+        let heart = document.createElement("div");
+        heart.innerText = "💖";
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.style.fontSize = (Math.random() * 30 + 20) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+    }
+}
+
+/* LLUVIA */
+function rainHearts() {
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.innerText = "💗";
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "100vh";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+    }, 300);
+}
+
+/* CUANDO DICE SÍ */
 yes.addEventListener("click", function(){
+
     document.body.innerHTML = `
     <div style="text-align:center; color:white; padding:40px;">
         <h1 style="font-family:'Pacifico',cursive; font-size:55px;">
         YAAAAYYY 💘👑
         </h1>
 
-        <h1 style="font-size:50px;">
+        <h1 style="font-size:40px;">
         Nicolle ahora es oficialmente
         </h1>
 
-        <h1 style="font-size:65px; text-shadow:0 0 15px white;">
+        <h1 style="font-size:55px; text-shadow:0 0 15px white;">
         MI PRINCESA PIOJOSA 💖✨👑
         </h1>
+
+        <p style="font-size:22px; font-weight:600; color:white;">
+        Prometo hacerte la más feliz del mundo 💞<br>
+        Prometo cuidarte siempre 🥺❤️<br>
+        Prometo quererte hoy y todos los días ✨<br>
+        Y también prometo molestarte, picarte y fastidiarte
+        porque así demuestro que te amo 😌💖
+        </p>
     </div>
     `;
 
     document.body.style.background =
     "linear-gradient(135deg, #ff4d6d, #ff8fab)";
+
+    explodeHearts();
+    rainHearts();
 });
 </script>
 
