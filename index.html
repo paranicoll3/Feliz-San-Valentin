@@ -2,23 +2,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Para Nicolle 💘</title>
+<title>Para Nicolle 💌</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
+    margin: 0;
+    height: 100vh;
     background: linear-gradient(135deg, #ffb3c6, #ffc8dd);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
 }
 
-/* CARTA */
+/* SOBRE */
 .envelope {
     width: 280px;
     height: 180px;
@@ -47,27 +47,31 @@ body {
     position: relative;
 }
 
-/* CARD */
-.card {
+/* PAPEL */
+.letter {
     display: none;
-    background: white;
-    width: 330px;
-    padding: 25px;
-    border-radius: 25px;
+    width: 360px;
+    background: #fffdf7;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    font-family: 'Playfair Display', serif;
+    line-height: 1.6;
+    color: #333;
+    animation: fadeIn 1s ease-in-out;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+.question-section {
+    display: none;
+    margin-top: 25px;
     text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-}
-
-.card img {
-    width: 100%;
-    border-radius: 20px;
-}
-
-.top-message {
-    font-size: 14px;
-    color: #d90429;
-    font-weight: 600;
-    margin-bottom: 10px;
 }
 
 h2 {
@@ -75,27 +79,19 @@ h2 {
     color: #e63946;
 }
 
-p {
-    color: #111;
-    font-weight: 600;
-}
-
 .buttons {
-    margin-top: 20px;
     position: relative;
-    width: 100%;
-    height: 90px;
+    height: 80px;
 }
 
 button {
     padding: 8px 18px;
     border-radius: 20px;
     border: none;
-    font-size: 14px;
     cursor: pointer;
     font-weight: bold;
-    transition: 0.3s;
     position: absolute;
+    transition: 0.3s;
 }
 
 #yes {
@@ -110,7 +106,6 @@ button {
     right: 40px;
 }
 
-/* CORAZONES */
 .heart {
     position: fixed;
     font-size: 24px;
@@ -132,27 +127,57 @@ button {
     <div class="envelope-text">Tócame 💌</div>
 </div>
 
-<div class="card" id="card">
+<div class="letter" id="letter">
 
-    <div class="top-message">
-        No soy programador… pero por ti aprendí a hacer esto 💻❤️
+    <div>
+    Cuando te miro, el mundo no se detiene…  
+    pero para mí, todo pierde importancia.
+
+    <br><br>
+
+    Es como si el ruido desapareciera  
+    y solo quedara tu presencia.
+
+    <br><br>
+
+    Tus ojos no brillan como mil estrellas…  
+    brillan como si guardaran un universo entero dentro.  
+    Y cuando me miras, siento que estoy en el lugar correcto.
+
+    <br><br>
+
+    Tu sonrisa no es solo hermosa,  
+    es de esas que iluminan días grises,  
+    de esas que curan silencios,  
+    de esas que se quedan viviendo en mi mente  
+    mucho después de que el momento termina.
+
+    <br><br>
+
+    Y tal vez el mundo siga girando,  
+    pero cuando estoy contigo,  
+    yo no necesito que nada más exista.
+
+    <br><br>
+
+    Así que quiero preguntarte algo…
     </div>
 
-    <img src="https://media.tenor.com/gD1awOKldpcAAAAM/nanobombs-cat.gif">
+    <div class="question-section" id="questionSection">
+        <h2 id="question">¿Quieres ser mi San Valentín Nicolle? 💘</h2>
 
-    <h2 id="question">¿Quieres ser mi San Valentín Nicolle? 🥺👉👈</h2>
-    <p>Prometo hacerte muy muy feliz y cuidar de tus piojos ❤️</p>
-
-    <div class="buttons" id="buttons">
-        <button id="yes">Sí 🥰</button>
-        <button id="no">No 😢</button>
+        <div class="buttons" id="buttons">
+            <button id="yes">Sí 🥰</button>
+            <button id="no">No 😢</button>
+        </div>
     </div>
 
 </div>
 
 <script>
 let envelope = document.getElementById("envelope");
-let card = document.getElementById("card");
+let letter = document.getElementById("letter");
+let questionSection = document.getElementById("questionSection");
 let yes = document.getElementById("yes");
 let no = document.getElementById("no");
 let buttons = document.getElementById("buttons");
@@ -171,18 +196,19 @@ let messages = [
 
 envelope.addEventListener("click", function(){
     envelope.style.display = "none";
-    card.style.display = "block";
+    letter.style.display = "block";
+
+    setTimeout(() => {
+        questionSection.style.display = "block";
+    }, 9000);
 });
 
-/* MOVER NO */
 function moveNoButton() {
-
     question.innerText = messages[clickCount % messages.length];
     clickCount++;
 
     yesSize += 6;
     yes.style.fontSize = yesSize + "px";
-    yes.style.padding = "12px 28px";
 
     let maxX = buttons.clientWidth - no.offsetWidth;
     let maxY = buttons.clientHeight - no.offsetHeight;
@@ -197,7 +223,6 @@ no.addEventListener("touchstart", function(e){
     moveNoButton();
 });
 
-/* EXPLOSIÓN */
 function explodeHearts() {
     for (let i = 0; i < 150; i++) {
         let heart = document.createElement("div");
@@ -211,42 +236,22 @@ function explodeHearts() {
     }
 }
 
-/* LLUVIA */
-function rainHearts() {
-    setInterval(() => {
-        let heart = document.createElement("div");
-        heart.innerText = "💗";
-        heart.className = "heart";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.top = "100vh";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 4000);
-    }, 300);
-}
-
-/* CUANDO DICE SÍ */
 yes.addEventListener("click", function(){
-
     document.body.innerHTML = `
     <div style="text-align:center; color:white; padding:40px;">
         <h1 style="font-family:'Pacifico',cursive; font-size:55px;">
         YAAAAYYY 💘👑
         </h1>
 
-        <h1 style="font-size:40px;">
-        Nicolle ahora eres
-        </h1>
-
-        <h1 style="font-size:55px; text-shadow:0 0 15px white;">
+        <h1 style="font-size:55px;">
         MI PRINCESA PIOJOSA 💖✨👑
         </h1>
 
-        <p style="font-size:22px; font-weight:600; color:white;">
+        <p style="font-size:22px; font-weight:600;">
         Prometo hacerte la más feliz del mundo 💞<br>
         Prometo cuidarte siempre 🥺❤️<br>
         Prometo quererte hoy y todos los días ✨<br>
-        Y también prometo molestarte, picarte y fastidiarte
-        porque así demuestro que te amo 😌💖
+        Y molestarte siempre porque así demuestro que te amo 😌💖
         </p>
     </div>
     `;
@@ -255,7 +260,6 @@ yes.addEventListener("click", function(){
     "linear-gradient(135deg, #ff4d6d, #ff8fab)";
 
     explodeHearts();
-    rainHearts();
 });
 </script>
 
